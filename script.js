@@ -1,10 +1,12 @@
 function id(what) { return document.getElementById(what) }
 function get(what) { return localStorage[what] }
 function set(item, value) { localStorage[item] = value }
-
+Array.min = function(array){ return Math.min.apply( Math, array )};
 var timer = { time:0, run:'false', base:0 }, table = {};
 set('cells', get("cells") || 0);
 set('times', get("times") || '');
+chrome.storage.sync.get("times", function(obj){set('times', obj.times || get("times") || '')});
+chrome.storage.sync.get("cells", function(obj){set('cells', obj.cells || get("cells") || '')});
 timer.toggle = function() {
 	if (timer.run == 'false') {
         if (id('timer').style.color == "rgb(127, 255, 0)") {
@@ -12,6 +14,7 @@ timer.toggle = function() {
     		timer.base = new Date();
     		timer.run = 'true';
     		id('timer').style.color = '#7FFF00';
+            id('body').style.background = '#000';
         }
 	}
 	else if (timer.run == 'true') {
@@ -25,6 +28,15 @@ timer.toggle = function() {
         set('times', get("times") + timer.format(timer.time) + '|');
         table["row" + row]["cell" + cell].innerHTML = timer.format(timer.time);
         set('cells', parseFloat(get("cells")) + 1);
+        chrome.storage.sync.set({'times': get("times")});
+        chrome.storage.sync.set({'cells': get("cells")});
+        var t = get("times").split('|'); t.pop();
+        for (i = 0; i < t.length; i++) {
+            for (j = 0; t[i].includes(':'); j++) {
+                t[i] = t[i].replace(':', '');
+            }
+        }
+        if (timer.time == Array.min(t)) id('body').style.background = '#64DD17';
 	}
 };
 timer.tick = function() {
@@ -106,6 +118,8 @@ id('times').onclick = function (ev) {
     set('times', get("times").replace(ev.target.innerHTML + '|', ''));
     id('times').innerHTML = '';
     set('cells', parseFloat(get("cells")) - 1);
+    chrome.storage.sync.set({'times': get("times")});
+    chrome.storage.sync.set({'cells': get("cells")});
     updateTimes();
 }
 function updateTimes() {
