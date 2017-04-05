@@ -102,12 +102,12 @@ id('body').onkeydown = function (e) {
         setTimeout(function(){if (keyDown == 'true'){id('timer').style.color = "#7FFF00";}}, 500);
     }
 };
-id('main').onmouseup = function (e) {     
+id('timer').onmouseup = function (e) {     
     timer.toggle();
     id('timer').style.color = "#FFF";
     keyDown = 'false';
 };
-id('main').onmousedown = function (e) {
+id('timer').onmousedown = function (e) {
     if (keyDown == 'false') {
         id('timer').style.color = "#F00";
         keyDown = 'true';
@@ -121,7 +121,8 @@ id('times').onclick = function (ev) {
     chrome.storage.sync.set({'times': get("times")});
     chrome.storage.sync.set({'cells': get("cells")});
     updateTimes();
-}
+};
+id('scramble').onclick = function() { id('scramble').innerHTML = generateScramble() };
 function updateTimes() {
     if (get("times").includes('|')) {
         var times = get("times").split('|');
