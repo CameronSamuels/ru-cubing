@@ -2,8 +2,9 @@ function id(what) { return document.getElementById(what) }
 function get(what) { return localStorage[what] }
 function set(item, value) { localStorage[item] = value }
 Array.min = function(array){ return Math.min.apply( Math, array )};
-var timer = { time:0, run:'false', base:0 }, table = {};
+var timer = { time:0, run:'false', base:0 }, table = {}, cpr = window.innerWidth/100;
 set('cells', get("cells") || 0);
+if (!cpr) cpr = 5;
 set('times', get("times") || '');
 chrome.storage.sync.get("times", function(obj){set('times', obj.times || get("times") || '')});
 chrome.storage.sync.get("cells", function(obj){set('cells', obj.cells || get("cells") || '')});
@@ -21,8 +22,8 @@ timer.toggle = function() {
 		timer.run = 'false';
 		id('timer').style.color = '#FFF';
 		id('scramble').innerHTML = generateScramble();
-        var row = Math.floor(get("cells")/10);
-        var cell = get("cells")%10;
+        var row = Math.floor(get("cells")/cpr);
+        var cell = get("cells")%cpr;
         if (cell === 0) table["row" + row] = id('times').insertRow(-1);
         table["row" + row]["cell" + cell] = table["row" + row].insertCell(-1);
         set('times', get("times") + timer.format(timer.time) + '|');
@@ -142,8 +143,8 @@ function updateTimes() {
         if (times.length > 0) {
             for (i = 0; i < times.length; i++) {
                 if (times[i] != '') {
-                    var row = Math.floor(i/10);
-                    var cell = i%10;
+                    var row = Math.floor(i/cpr);
+                    var cell = i%cpr;
                     if (cell == 0) table["row" + row] = id('times').insertRow(-1);
                     table["row" + row]["cell" + cell] = table["row" + row].insertCell(-1);
                     table["row" + row]["cell" + cell].innerHTML = times[i];

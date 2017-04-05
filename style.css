@@ -24,10 +24,12 @@ body, html { height: 300px; background: black; margin: 0 }
 }
 table { 
 	border: 0px;
-	font-size: 16px;
+	font-size: 25px;
 	margin: 0 auto;
 }
-td:hover {
-	text-decoration: line-through;
-	color: #f00; cursor: pointer
+td {
+	border-left: 10px rgba(0,0,0,0) solid;
+	border-right: 14px rgba(0,0,0,0) solid;
+	cursor: pointer
 }
+td:hover { text-decoration: line-through;color: #f00 }
