@@ -122,6 +122,19 @@ id('times').onclick = function (ev) {
     chrome.storage.sync.set({'cells': get("cells")});
     updateTimes();
 };
+id('main').ontouchend = function(){
+    timer.toggle();
+    document.getElementById('timer').style.color = '#FFFFFF';
+    keyDown = 'false';
+};
+id('main').ontouchstart = function(){
+    if (keyDown == 'false') {
+        document.getElementById('timer').style.color = '#FF0000';
+        keyDown = 'true';
+        setTimeout(function(){if (keyDown == 'true'){document.getElementById('timer').style.color = '#7FFF00';}}, 550);
+    }
+};
+
 id('scramble').onclick = function() { id('scramble').innerHTML = generateScramble() };
 function updateTimes() {
     if (get("times").includes('|')) {
