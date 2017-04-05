@@ -16,6 +16,7 @@ timer.toggle = function() {
     		timer.run = 'true';
     		id('timer').style.color = '#7FFF00';
             id('body').style.background = '#000';
+            id('times').style.display = "none";
         }
 	}
 	else if (timer.run == 'true') {
@@ -38,6 +39,7 @@ timer.toggle = function() {
             }
         }
         if (timer.time == Array.min(t)) id('body').style.background = '#64DD17';
+        id('times').style.display = "";
 	}
 };
 timer.tick = function() {
@@ -90,7 +92,7 @@ function generateScramble() {
     }
     return scramble;
 }
-var keyDown = 'false';
+var keyDown = 'false', timeout;
 id('body').onkeyup = function (e) {     
     timer.toggle();
     id('timer').style.color = "#FFF";
@@ -98,9 +100,15 @@ id('body').onkeyup = function (e) {
 };
 id('body').onkeydown = function (e) {
     if (keyDown == 'false') {
-        id('timer').style.color = "#F00";
+        if (timer.run == 'false') {
+            id('timer').style.color = "#F00";
+            clearTimeout(timeout);
+            timeout = setTimeout(function(){if (keyDown == 'true'){id('timer').style.color = "#7FFF00";}}, 500);
+        } else {
+            timer.toggle();
+            id('timer').style.color = "#FFF";
+        }
         keyDown = 'true';
-        setTimeout(function(){if (keyDown == 'true'){id('timer').style.color = "#7FFF00";}}, 500);
     }
 };
 id('timer').onmouseup = function (e) {     
@@ -110,32 +118,46 @@ id('timer').onmouseup = function (e) {
 };
 id('timer').onmousedown = function (e) {
     if (keyDown == 'false') {
-        id('timer').style.color = "#F00";
+        if (timer.run == 'false') {
+            id('timer').style.color = "#F00";
+            clearTimeout(timeout);
+            timeout = setTimeout(function(){if (keyDown == 'true'){id('timer').style.color = "#7FFF00";}}, 500);
+        } else {
+            timer.toggle();
+            id('timer').style.color = "#FFF";
+        }
         keyDown = 'true';
-        setTimeout(function(){if (keyDown == 'true'){id('timer').style.color = "#7FFF00";}}, 500);
     }
 };
 id('times').onclick = function (ev) {
-    set('times', get("times").replace(ev.target.innerHTML + '|', ''));
-    id('times').innerHTML = '';
-    set('cells', parseFloat(get("cells")) - 1);
-    chrome.storage.sync.set({'times': get("times")});
-    chrome.storage.sync.set({'cells': get("cells")});
-    updateTimes();
+    if (timer.run == 'false') {
+        set('times', get("times").replace(ev.target.innerHTML + '|', ''));
+        id('times').innerHTML = '';
+        set('cells', parseFloat(get("cells")) - 1);
+        chrome.storage.sync.set({'times': get("times")});
+        chrome.storage.sync.set({'cells': get("cells")});
+        updateTimes();
+    }
 };
 id('main').ontouchend = function(){
     timer.toggle();
-    document.getElementById('timer').style.color = '#FFFFFF';
+    id('timer').style.color = '#FFFFFF';
     keyDown = 'false';
 };
 id('main').ontouchstart = function(){
     if (keyDown == 'false') {
-        document.getElementById('timer').style.color = '#FF0000';
+        if (timer.run == 'false') {
+            id('timer').style.color = "#F00";
+            clearTimeout(timeout);
+            timeout = setTimeout(function(){if (keyDown == 'true'){id('timer').style.color = "#7FFF00";}}, 500);
+        } else {
+            timer.toggle();
+            id('timer').style.color = "#FFF";
+        }
         keyDown = 'true';
-        setTimeout(function(){if (keyDown == 'true'){document.getElementById('timer').style.color = '#7FFF00';}}, 550);
     }
 };
-
+id('body').oncontextmenu = function(e) { e.preventDefault(); }
 id('scramble').onclick = function() { id('scramble').innerHTML = generateScramble() };
 function updateTimes() {
     if (get("times").includes('|')) {
