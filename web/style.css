@@ -1,0 +1,35 @@
+body, html, main {
+	width: 100%;
+	font-family: Arial, Helvetica, sans-serif;
+	text-align: center;
+	color: #FFF;
+	-webkit-user-select: none;
+}
+main { position: relative; top: 10px }
+body, html { height: 100%; background: black; margin: 0 }
+#timer {
+	width:  100%;
+	height: 150px;
+	font-size: 100px;
+	cursor: pointer;
+}
+#scramble {
+	width: 100%;
+	font-size: 20px;
+	cursor: pointer;
+}
+#scramble:hover {
+	text-decoration: underline;
+	color: #777FFF;
+}
+table { 
+	border: 0px;
+	font-size: 25px;
+	margin: 0 auto;
+}
+td {
+	border-left: 10px rgba(0,0,0,0) solid;
+	border-right: 14px rgba(0,0,0,0) solid;
+	cursor: pointer
+}
+td:hover { text-decoration: line-through;color: #f00 }

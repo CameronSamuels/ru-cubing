@@ -2,12 +2,10 @@ function id(what) { return document.getElementById(what) }
 function get(what) { return localStorage[what] }
 function set(item, value) { localStorage[item] = value }
 Array.min = function(array){ return Math.min.apply( Math, array )};
-var timer = { time:0, run:'false', base:0 }, table = {}, cpr = window.innerWidth/100;
+var timer = { time:0, run:'false', base:0 }, table = {}, cpr = Math.floor(window.innerWidth/100) - 3;
 set('cells', get("cells") || 0);
-if (!cpr) cpr = 5;
+if (!cpr || cpr <= 0) cpr = 5;
 set('times', get("times") || '');
-chrome.storage.sync.get("times", function(obj){set('times', obj.times || get("times") || '')});
-chrome.storage.sync.get("cells", function(obj){set('cells', obj.cells || get("cells") || '')});
 timer.toggle = function() {
 	if (timer.run == 'false') {
         if (id('timer').style.color == "rgb(127, 255, 0)") {
@@ -23,20 +21,26 @@ timer.toggle = function() {
 		timer.run = 'false';
 		id('timer').style.color = '#FFF';
 		id('scramble').innerHTML = generateScramble();
-        var row = Math.floor(get("cells")/cpr);
-        var cell = get("cells")%cpr;
-        if (cell === 0) table["row" + row] = id('times').insertRow(-1);
-        table["row" + row]["cell" + cell] = table["row" + row].insertCell(-1);
-        set('times', get("times") + timer.format(timer.time) + '|');
-        table["row" + row]["cell" + cell].innerHTML = timer.format(timer.time);
-        set('cells', parseFloat(get("cells")) + 1);
-        chrome.storage.sync.set({'times': get("times")});
-        chrome.storage.sync.set({'cells': get("cells")});
-        var t = get("times").split('|'); t.pop();
-        for (i = 0; i < t.length; i++) {
-            for (j = 0; t[i].includes(':'); j++) {
-                t[i] = t[i].replace(':', '');
+        try {
+            var row = Math.floor(get("cells")/cpr);
+            var cell = get("cells")%cpr;
+            if (cell === 0) table["row" + row] = id('times').insertRow(-1);
+            table["row" + row]["cell" + cell] = table["row" + row].insertCell(-1);
+            set('times', get("times") + timer.format(timer.time) + '|');
+            table["row" + row]["cell" + cell].innerHTML = timer.format(timer.time);
+            set('cells', parseFloat(get("cells")) + 1);
+            var t = get("times").split('|'); t.pop();
+            for (i = 0; i < t.length; i++) {
+                for (j = 0; t[i].includes(':'); j++) {
+                    t[i] = t[i].replace(':', '');
+                }
             }
+        } catch (ex) {
+            try {
+                var t = get("times").split('|'); t.pop();
+                set('cells', t.length);
+                chrome.storage.sync.set({'cells': get("cells")});
+            } catch (ex) {}
         }
         if (timer.time == Array.min(t)) id('body').style.background = '#64DD17';
         id('times').style.display = "";
@@ -134,8 +138,6 @@ id('times').onclick = function (ev) {
         set('times', get("times").replace(ev.target.innerHTML + '|', ''));
         id('times').innerHTML = '';
         set('cells', parseFloat(get("cells")) - 1);
-        chrome.storage.sync.set({'times': get("times")});
-        chrome.storage.sync.set({'cells': get("cells")});
         updateTimes();
     }
 };
@@ -160,20 +162,28 @@ id('main').ontouchstart = function(){
 id('body').oncontextmenu = function(e) { e.preventDefault(); }
 id('scramble').onclick = function() { id('scramble').innerHTML = generateScramble() };
 function updateTimes() {
-    if (get("times").includes('|')) {
-        var times = get("times").split('|');
-        if (times.length > 0) {
-            for (i = 0; i < times.length; i++) {
-                if (times[i] != '') {
-                    var row = Math.floor(i/cpr);
-                    var cell = i%cpr;
-                    if (cell == 0) table["row" + row] = id('times').insertRow(-1);
-                    table["row" + row]["cell" + cell] = table["row" + row].insertCell(-1);
-                    table["row" + row]["cell" + cell].innerHTML = times[i];
+    try {
+        if (get("times").includes('|')) {
+            var times = get("times").split('|');
+            if (times.length > 0) {
+                for (i = 0; i < times.length; i++) {
+                    if (times[i] != '') {
+                        var row = Math.floor(i/cpr);
+                        var cell = i%cpr;
+                        if (cell == 0) table["row" + row] = id('times').insertRow(-1);
+                        table["row" + row]["cell" + cell] = table["row" + row].insertCell(-1);
+                        table["row" + row]["cell" + cell].innerHTML = times[i];
+                    }
                 }
             }
         }
-    }
+    } catch (ex) {
+            try {
+                var t = get("times").split('|'); t.pop();
+                set('cells', t.length);
+                chrome.storage.sync.set({'cells': get("cells")});
+            } catch (ex) {}
+        }
 }
 updateTimes();
 id('scramble').innerHTML = generateScramble();
