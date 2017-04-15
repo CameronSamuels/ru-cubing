@@ -40,10 +40,12 @@ timer.toggle = function() {
             try {
                 var t = get("times").split('|'); t.pop();
                 set('cells', t.length);
-                chrome.storage.sync.set({'cells': get("cells")});
             } catch (ex) {}
         }
-        if (timer.time == Array.min(t)) document.body.style.background = '#64DD17';
+        if (timer.time == Array.min(t)) {
+            document.body.style.background = '#64DD17';
+            window.navigator.vibrate(200);
+         }
         id('times').style.display = "";
 	}
 };
@@ -154,7 +156,7 @@ document.body.ontouchstart = function(e){
         if (timer.run == 'false' && e.target.id == "timer") {
             id('timer').style.color = "#F00";
             clearTimeout(timeout);
-            timeout = setTimeout(function(){if (keyDown == 'true'){id('timer').style.color = "#7FFF00";}}, 500);
+            timeout = setTimeout(function(){if (keyDown == 'true'){id('timer').style.color = "#7FFF00";window.navigator.vibrate(50)}}, 500);
         } else if (timer.run == "true") {
             timer.toggle();
             id('timer').style.color = "#FFF";
@@ -163,7 +165,7 @@ document.body.ontouchstart = function(e){
     }
 };
 document.body.oncontextmenu = function(e) { e.preventDefault(); }
-id('scramble').onclick = function() { id('scramble').innerHTML = generateScramble() };
+id('scramble').onmousedown = function() { id('scramble').innerHTML = generateScramble() };
 function updateTimes() {
     try {
         if (get("times").includes('|')) {
@@ -184,7 +186,6 @@ function updateTimes() {
             try {
                 var t = get("times").split('|'); t.pop();
                 set('cells', t.length);
-                chrome.storage.sync.set({'cells': get("cells")});
             } catch (ex) {}
         }
 }
