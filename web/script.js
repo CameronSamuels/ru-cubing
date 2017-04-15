@@ -118,32 +118,27 @@ document.body.onkeydown = function (e) {
         keyDown = 'true';
     }
 };
-id('timer').onmouseup = function (e) {     
-    timer.toggle();
-    id('timer').style.color = "#FFF";
-    keyDown = 'false';
-};
-id('timer').onmousedown = function (e) {
-    if (keyDown == 'false') {
-        if (timer.run == 'false') {
-            id('timer').style.color = "#F00";
-            clearTimeout(timeout);
-            timeout = setTimeout(function(){if (keyDown == 'true'){id('timer').style.color = "#7FFF00";}}, 500);
-        } else {
-            timer.toggle();
-            id('timer').style.color = "#FFF";
+if (!navigator.userAgent.match(/iPhone|iPad|iPod/i) && !navigator.userAgent.match(/Android/i)) {
+    id('timer').onmouseup = function (e) {     
+        timer.toggle();
+        id('timer').style.color = "#FFF";
+        keyDown = 'false';
+    };
+    id('timer').onmousedown = function (e) {
+        if (keyDown == 'false') {
+            if (timer.run == 'false') {
+                id('timer').style.color = "#F00";
+                clearTimeout(timeout);
+                timeout = setTimeout(function(){if (keyDown == 'true'){id('timer').style.color = "#7FFF00";}}, 500);
+            } else {
+                timer.toggle();
+                id('timer').style.color = "#FFF";
+            }
+            keyDown = 'true';
         }
-        keyDown = 'true';
-    }
-};
-id('times').onclick = function (ev) {
-    if (timer.run == 'false') {
-        set('times', get("times").replace(ev.target.innerHTML + '|', ''));
-        id('times').innerHTML = '';
-        set('cells', parseFloat(get("cells")) - 1);
-        updateTimes();
-    }
-};
+    };
+    id('scramble').onmousedown = function() { id('scramble').innerHTML = generateScramble() };
+}
 document.body.ontouchend = function(e){
     if (e.target.id == "timer") {
         timer.toggle();
@@ -164,8 +159,16 @@ document.body.ontouchstart = function(e){
         keyDown = 'true';
     }
 };
+id('times').onclick = function (ev) {
+    if (timer.run == 'false') {
+        set('times', get("times").replace(ev.target.innerHTML + '|', ''));
+        id('times').innerHTML = '';
+        set('cells', parseFloat(get("cells")) - 1);
+        updateTimes();
+    }
+};
 document.body.oncontextmenu = function(e) { e.preventDefault(); }
-id('scramble').onmousedown = function() { id('scramble').innerHTML = generateScramble() };
+id('scramble').ontouchstart = function() { id('scramble').innerHTML = generateScramble() };
 function updateTimes() {
     try {
         if (get("times").includes('|')) {
