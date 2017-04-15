@@ -4,6 +4,7 @@ function set(item, value) { localStorage[item] = value }
 Array.min = function(array){ return Math.min.apply( Math, array )};
 var timer = { time:0, run:'false', base:0 }, table = {}, cpr = Math.floor(window.innerWidth/100) - 3;
 set('cells', get("cells") || 0);
+if (navigator.userAgent.match(/iPhone|iPad|iPod/i) || navigator.userAgent.match(/Android/i)) cpr = Math.min(Math.floor(screen.width/100), 8);
 if (!cpr || cpr <= 0) cpr = 5;
 set('times', get("times") || '');
 timer.toggle = function() {
@@ -13,7 +14,7 @@ timer.toggle = function() {
     		timer.base = new Date();
     		timer.run = 'true';
     		id('timer').style.color = '#7FFF00';
-            id('body').style.background = '#000';
+            document.body.style.background = '#000';
             id('times').style.display = "none";
         }
 	}
@@ -42,7 +43,7 @@ timer.toggle = function() {
                 chrome.storage.sync.set({'cells': get("cells")});
             } catch (ex) {}
         }
-        if (timer.time == Array.min(t)) id('body').style.background = '#64DD17';
+        if (timer.time == Array.min(t)) document.body.style.background = '#64DD17';
         id('times').style.display = "";
 	}
 };
@@ -97,12 +98,12 @@ function generateScramble() {
     return scramble;
 }
 var keyDown = 'false', timeout;
-id('body').onkeyup = function (e) {     
+document.body.onkeyup = function (e) {     
     timer.toggle();
     id('timer').style.color = "#FFF";
     keyDown = 'false';
 };
-id('body').onkeydown = function (e) {
+document.body.onkeydown = function (e) {
     if (keyDown == 'false') {
         if (timer.run == 'false') {
             id('timer').style.color = "#F00";
@@ -141,25 +142,27 @@ id('times').onclick = function (ev) {
         updateTimes();
     }
 };
-id('main').ontouchend = function(){
-    timer.toggle();
-    id('timer').style.color = '#FFFFFF';
+document.body.ontouchend = function(e){
+    if (e.target.id == "timer") {
+        timer.toggle();
+        id('timer').style.color = '#FFFFFF';
+    }
     keyDown = 'false';
 };
-id('main').ontouchstart = function(){
+document.body.ontouchstart = function(e){
     if (keyDown == 'false') {
-        if (timer.run == 'false') {
+        if (timer.run == 'false' && e.target.id == "timer") {
             id('timer').style.color = "#F00";
             clearTimeout(timeout);
             timeout = setTimeout(function(){if (keyDown == 'true'){id('timer').style.color = "#7FFF00";}}, 500);
-        } else {
+        } else if (timer.run == "true") {
             timer.toggle();
             id('timer').style.color = "#FFF";
         }
         keyDown = 'true';
     }
 };
-id('body').oncontextmenu = function(e) { e.preventDefault(); }
+document.body.oncontextmenu = function(e) { e.preventDefault(); }
 id('scramble').onclick = function() { id('scramble').innerHTML = generateScramble() };
 function updateTimes() {
     try {
