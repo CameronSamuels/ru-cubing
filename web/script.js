@@ -44,7 +44,7 @@ timer.toggle = function() {
         }
         if (timer.time == Array.min(t)) {
             document.body.style.background = '#64DD17';
-            window.navigator.vibrate(200);
+            try{window.navigator.vibrate(200)}catch (ex){}
          }
         id('times').style.display = "";
 	}
@@ -192,6 +192,14 @@ function updateTimes() {
             } catch (ex) {}
         }
 }
+function orientation() {
+    cpr = Math.floor(window.innerWidth/100) - 3;
+    if (navigator.userAgent.match(/iPhone|iPad|iPod/i) || navigator.userAgent.match(/Android/i)) cpr = Math.min(Math.floor(screen.width/100), 8);
+    if (!cpr || cpr <= 0) cpr = 5;
+    id('times').innerHTML = "";
+    updateTimes();
+}
 updateTimes();
 id('scramble').innerHTML = generateScramble();
+window.addEventListener("orientationchange", orientation); 
 timer.tick();
