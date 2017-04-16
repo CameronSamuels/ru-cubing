@@ -213,16 +213,16 @@ function refreshStats() {
     if (t.length > 0) {
         var s = [];
         for (i = 0; i < t.length; i++) {
-            for (j = 0; t[i].includes(':'); j++) {
+            // for (j = 0; t[i].includes(':'); j++) {
                 var a = t[i].split(':');
-                 if (a.length == 3) s[i] = (+a[0]) * 60 * 60 + (+a[1]) * 60 + (+a[2]); 
-                else s[i] = (+a[0]) * 60 + (+a[1]);
-                t[i] = t[i].replace(':', '');
-            }
+                 if (a.length == 3) s[i] = (+a[0]) * 60000 + (+a[1]) * 1000 + (+a[2]); 
+                else s[i] = (+a[0]) * 1000 + (+a[1]);
+                // t[i] = t[i].replace(':', '');
+            // }
         }
         var sum = s.reduce(function(a, b) { return a + b; });
         var avg = sum / s.length;
-        id('stats').innerHTML = "<tr><td>" + timer.format(Array.min(t)) + "</td><td>" + timer.format(Math.round(avg))  + "</td><td>" + timer.format(Array.max(t)) + "</td></tr>";
+        id('stats').innerHTML = "<tr><td>" + timer.format(Array.min(s)) + "</td><td>" + timer.format(Math.round(avg))  + "</td><td>" + timer.format(Array.max(s)) + "</td></tr>";
     } else id('stats').innerHTML = "";
 }
 refreshStats();
