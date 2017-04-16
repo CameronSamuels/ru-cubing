@@ -2,26 +2,28 @@ function id(what) { return document.getElementById(what) }
 function get(what) { return localStorage[what] }
 function set(item, value) { localStorage[item] = value }
 Array.min = function(array){ return Math.min.apply( Math, array )};
+Array.max = function(array){ return Math.max.apply( Math, array )};
 var timer = { time:0, run:'false', base:0 }, table = {}, cpr = Math.floor(window.innerWidth/100) - 3;
 set('cells', get("cells") || 0);
 if (navigator.userAgent.match(/iPhone|iPad|iPod/i) || navigator.userAgent.match(/Android/i)) cpr = Math.min(Math.floor(screen.width/100) - 1, 8);
-if (!cpr || cpr <= 0) cpr = 5;
+if (!cpr || cpr <= 0) cpr = 1;
 set('times', get("times") || '');
 timer.toggle = function() {
-	if (timer.run == 'false') {
+    if (timer.run == 'false') {
         if (id('timer').style.color == "rgb(127, 255, 0)") {
-    		timer.time = 0;
-    		timer.base = new Date();
-    		timer.run = 'true';
-    		id('timer').style.color = '#7FFF00';
+            timer.time = 0;
+            timer.base = new Date();
+            timer.run = 'true';
+            id('timer').style.color = '#7FFF00';
             document.body.style.background = '#000';
             id('times').style.display = "none";
+            id('stats').style.display = "none";
         }
-	}
-	else if (timer.run == 'true') {
-		timer.run = 'false';
-		id('timer').style.color = '#FFF';
-		id('scramble').innerHTML = generateScramble();
+    }
+    else if (timer.run == 'true') {
+        timer.run = 'false';
+        id('timer').style.color = '#FFF';
+        id('scramble').innerHTML = generateScramble();
         try {
             var row = Math.floor(get("cells")/cpr);
             var cell = get("cells")%cpr;
@@ -45,9 +47,11 @@ timer.toggle = function() {
         if (timer.time == Array.min(t)) {
             document.body.style.background = '#64DD17';
             try{window.navigator.vibrate(200)}catch (ex){}
-         }
+        }
         id('times').style.display = "";
-	}
+        refreshStats();
+        id('stats').style.display = "";
+    }
 };
 timer.tick = function() {
 	if (timer.run == 'true') {
@@ -167,6 +171,7 @@ id('times').onclick = function (ev) {
         id('times').innerHTML = '';
         set('cells', parseFloat(get("cells")) - 1);
         updateTimes();
+        refreshStats();
     }
 };
 document.body.oncontextmenu = function(e) { e.preventDefault(); }
@@ -197,11 +202,30 @@ function updateTimes() {
 function orientation() {
     cpr = Math.floor(window.innerWidth/100) - 3;
     if (navigator.userAgent.match(/iPhone|iPad|iPod/i) || navigator.userAgent.match(/Android/i)) cpr = Math.min(Math.floor(screen.width/100) - 1, 8);
-    if (!cpr || cpr <= 0) cpr = 5;
+    if (!cpr || cpr <= 0) cpr = 1;
     id('times').innerHTML = "";
     updateTimes();
 }
 updateTimes();
 id('scramble').innerHTML = generateScramble();
-window.addEventListener("orientationchange", orientation); 
+function refreshStats() {
+    var t = get("times").split('|'); t.pop();
+    if (t.length > 0) {
+        var s = [];
+        for (i = 0; i < t.length; i++) {
+            for (j = 0; t[i].includes(':'); j++) {
+                var a = t[i].split(':');
+                 if (a.length == 3) s[i] = (+a[0]) * 60 * 60 + (+a[1]) * 60 + (+a[2]); 
+                else s[i] = (+a[0]) * 60 + (+a[1]);
+                t[i] = t[i].replace(':', '');
+            }
+        }
+        var sum = s.reduce(function(a, b) { return a + b; });
+        var avg = sum / s.length;
+        id('stats').innerHTML = "<tr><td>" + timer.format(Array.min(t)) + "</td><td>" + timer.format(Math.round(avg))  + "</td><td>" + timer.format(Array.max(t)) + "</td></tr>";
+    }
+}
+refreshStats();
+window.addEventListener("orientationchange", orientation);
+window.addEventListener("resize", orientation);
 timer.tick();

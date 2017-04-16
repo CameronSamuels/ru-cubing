@@ -30,7 +30,9 @@ table {
 }
 td {
 	border-left: 10px rgba(0,0,0,0) solid;
-	border-right: 14px rgba(0,0,0,0) solid;
-	cursor: pointer
+	border-right: 14px rgba(0,0,0,0) solid
 }
-td:hover { text-decoration: line-through;color: #f00 }
+#stats td:first-child { color: #7FFF00 }
+#stats td:nth-child(2) { color: #777FFF }
+#stats td:nth-child(3) { color: #f00 }
+#times td:hover { text-decoration: line-through;color: #f00;cursor: pointer }
