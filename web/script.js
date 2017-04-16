@@ -3,9 +3,9 @@ function get(what) { return localStorage[what] }
 function set(item, value) { localStorage[item] = value }
 Array.min = function(array){ return Math.min.apply( Math, array )};
 Array.max = function(array){ return Math.max.apply( Math, array )};
-var timer = { time:0, run:'false', base:0 }, table = {}, cpr = Math.floor(window.innerWidth/100) - 3;
+var timer = { time:0, run:'false', base:0 }, table = {}, cpr = Math.floor(window.innerWidth/100) - 1;
 set('cells', get("cells") || 0);
-if (navigator.userAgent.match(/iPhone|iPad|iPod/i) || navigator.userAgent.match(/Android/i)) cpr = Math.min(Math.floor(screen.width/100) - 1, 8);
+if (navigator.userAgent.match(/iPhone|iPad|iPod/i) || navigator.userAgent.match(/Android/i)) cpr = Math.min(Math.floor(screen.width/100), 12);
 if (!cpr || cpr <= 0) cpr = 1;
 set('times', get("times") || '');
 timer.toggle = function() {
@@ -16,8 +16,10 @@ timer.toggle = function() {
             timer.run = 'true';
             id('timer').style.color = '#7FFF00';
             document.body.style.background = '#000';
-            id('times').style.display = "none";
-            id('stats').style.display = "none";
+            var eles = document.querySelectorAll('body *:not(#timer):not(main):not(strong)');
+            for (i = 0; i < eles.length; i++) {
+                eles[i].style.display = "none";
+            }
         }
     }
     else if (timer.run == 'true') {
@@ -49,7 +51,10 @@ timer.toggle = function() {
             try{window.navigator.vibrate(200)}catch (ex){}
         }
         refreshStats();
-        id('stats').style.display = "";
+        var eles = document.querySelectorAll('body *:not(#timer):not(#times)');
+        for (i = 0; i < eles.length; i++) {
+            eles[i].style.display = "";
+        }
         updateCollapse();
     }
 };
@@ -144,6 +149,13 @@ if (!navigator.userAgent.match(/iPhone|iPad|iPod/i) && !navigator.userAgent.matc
         }
     };
     id('scramble').onmousedown = function() { id('scramble').innerHTML = generateScramble() };
+    id('timesCollapse').onmouseup = collapseTimes;
+    id('timesCollapse').setAttribute('class', 'hover');
+    id('times').setAttribute('class', 'hover');
+    id('scramble').setAttribute('class', 'hover');
+} else {
+    id('timesCollapse').ontouchend = collapseTimes;
+    id('scramble').ontouchstart = function() { id('scramble').innerHTML = generateScramble() };
 }
 document.body.ontouchend = function(e){
     if (e.target.id == "timer") {
@@ -175,7 +187,6 @@ id('times').onclick = function (ev) {
     }
 };
 document.body.oncontextmenu = function(e) { e.preventDefault(); }
-id('scramble').ontouchstart = function() { id('scramble').innerHTML = generateScramble() };
 function updateTimes() {
     try {
         if (get("times").includes('|')) {
@@ -200,8 +211,8 @@ function updateTimes() {
         }
 }
 function orientation() {
-    cpr = Math.floor(window.innerWidth/100) - 3;
-    if (navigator.userAgent.match(/iPhone|iPad|iPod/i) || navigator.userAgent.match(/Android/i)) cpr = Math.min(Math.floor(screen.width/100) - 1, 8);
+    cpr = Math.floor(window.innerWidth/100) - 1;
+    if (navigator.userAgent.match(/iPhone|iPad|iPod/i) || navigator.userAgent.match(/Android/i)) cpr = Math.min(Math.floor(screen.width/100), 12);
     if (!cpr || cpr <= 0) cpr = 1;
     id('times').innerHTML = "";
     updateTimes();

@@ -18,21 +18,37 @@ body, html { height: 100%; background: black; margin: 0 }
 	font-size: 20px;
 }
 #timer, #scramble, #timesCollapse { cursor: pointer }
-#scramble:hover {
+#scramble.hover:hover {
 	text-decoration: underline;
 	color: #777FFF;
 }
 table, #timesCollapse { 
 	border: 0px;
-	font-size: 25px;
+	font-size: 18px;
 	margin: 0 auto;
 }
+.hr {
+	border-top: 2px #fff solid;
+	width: 100px;
+	height: 0px;
+	margin: 5px auto;
+}
+/*#timesCollapse {
+	display: inline-block;
+	border-top-left-radius: 15px;
+	border-bottom-right-radius: 15px;
+	padding: 2px;
+	font-size: 30px;
+	color: #000;
+	background: #fff;
+}*/
 td {
 	border-left: 10px rgba(0,0,0,0) solid;
 	border-right: 14px rgba(0,0,0,0) solid
 }
-#timesCollapse:hover { color: #777FFF }
+#timesCollapse.hover:hover { color: #777FFF }
+#stats { font-size: 22px }
 #stats td:first-child { color: #7FFF00 }
 #stats td:nth-child(2) { color: #777FFF }
 #stats td:nth-child(3) { color: #f00 }
-#times td:hover { text-decoration: line-through;color: #f00;cursor: pointer }
+#times.hover td:hover { text-decoration: line-through;color: #f00;cursor: pointer }
