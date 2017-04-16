@@ -202,6 +202,13 @@ function updateTimes() {
                     }
                 }
             }
+            id('timesCollapse').style.display = "";
+            id('timesCollapse').previousElementSibling.style.display = "";
+            id('timesCollapse').nextElementSibling.style.display = "";
+        } else {
+            id('timesCollapse').style.display = "none";
+            id('timesCollapse').previousElementSibling.style.display = "none";
+            id('timesCollapse').nextElementSibling.style.display = "none";
         }
     } catch (ex) {
             try {
