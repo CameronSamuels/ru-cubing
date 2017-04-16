@@ -223,7 +223,7 @@ function refreshStats() {
         var sum = s.reduce(function(a, b) { return a + b; });
         var avg = sum / s.length;
         id('stats').innerHTML = "<tr><td>" + timer.format(Array.min(t)) + "</td><td>" + timer.format(Math.round(avg))  + "</td><td>" + timer.format(Array.max(t)) + "</td></tr>";
-    }
+    } else id('stats').innerHTML = "";
 }
 refreshStats();
 window.addEventListener("orientationchange", orientation);
