@@ -4,7 +4,7 @@ function set(item, value) { localStorage[item] = value }
 Array.min = function(array){ return Math.min.apply( Math, array )};
 var timer = { time:0, run:'false', base:0 }, table = {}, cpr = Math.floor(window.innerWidth/100) - 3;
 set('cells', get("cells") || 0);
-if (navigator.userAgent.match(/iPhone|iPad|iPod/i) || navigator.userAgent.match(/Android/i)) cpr = Math.min(Math.floor(screen.width/100), 8);
+if (navigator.userAgent.match(/iPhone|iPad|iPod/i) || navigator.userAgent.match(/Android/i)) cpr = Math.min(Math.floor(screen.width/100) - 1, 8);
 if (!cpr || cpr <= 0) cpr = 5;
 set('times', get("times") || '');
 timer.toggle = function() {
@@ -53,14 +53,16 @@ timer.tick = function() {
 	if (timer.run == 'true') {
 		timer.time = new Date() - timer.base;
 		id('timer').innerHTML = timer.format(timer.time);
+                    id('timer').style.fontSize = (100-((id('timer').innerHTML.length-6)*17)) + "px";
 	}
 	window.requestAnimationFrame(timer.tick);
 };
 timer.format = function(time) {
 	var ms = time.toString().substring(time.toString().length - 3, time.toString().length);
 	var h = Math.floor(time / 3600000);
-	var m = Math.floor(time / 60000) - (h * 3600);
+	var m = Math.floor(time / 60000) - (h * 60);
 	var s = Math.floor(time / 1000) - (m * 60);
+          if (h > 0) s = s - (m * 60);
 	time = '';
 	if (h >= 1) { time = h + ':' }
 	if (m >= 1) { time += m + ':' }
@@ -194,7 +196,7 @@ function updateTimes() {
 }
 function orientation() {
     cpr = Math.floor(window.innerWidth/100) - 3;
-    if (navigator.userAgent.match(/iPhone|iPad|iPod/i) || navigator.userAgent.match(/Android/i)) cpr = Math.min(Math.floor(screen.width/100), 8);
+    if (navigator.userAgent.match(/iPhone|iPad|iPod/i) || navigator.userAgent.match(/Android/i)) cpr = Math.min(Math.floor(screen.width/100) - 1, 8);
     if (!cpr || cpr <= 0) cpr = 5;
     id('times').innerHTML = "";
     updateTimes();
