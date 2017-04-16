@@ -12,18 +12,17 @@ body, html { height: 100%; background: black; margin: 0 }
 	width:  100%;
 	height: 150px;
 	font-size: 100px;
-	cursor: pointer;
 }
 #scramble {
 	width: 100%;
 	font-size: 20px;
-	cursor: pointer;
 }
+#timer, #scramble, #timesCollapse { cursor: pointer }
 #scramble:hover {
 	text-decoration: underline;
 	color: #777FFF;
 }
-table { 
+table, #timesCollapse { 
 	border: 0px;
 	font-size: 25px;
 	margin: 0 auto;
@@ -32,6 +31,7 @@ td {
 	border-left: 10px rgba(0,0,0,0) solid;
 	border-right: 14px rgba(0,0,0,0) solid
 }
+#timesCollapse:hover { color: #777FFF }
 #stats td:first-child { color: #7FFF00 }
 #stats td:nth-child(2) { color: #777FFF }
 #stats td:nth-child(3) { color: #f00 }

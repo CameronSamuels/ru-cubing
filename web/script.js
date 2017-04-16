@@ -48,9 +48,9 @@ timer.toggle = function() {
             document.body.style.background = '#64DD17';
             try{window.navigator.vibrate(200)}catch (ex){}
         }
-        id('times').style.display = "";
         refreshStats();
         id('stats').style.display = "";
+        updateCollapse();
     }
 };
 timer.tick = function() {
@@ -213,18 +213,28 @@ function refreshStats() {
     if (t.length > 0) {
         var s = [];
         for (i = 0; i < t.length; i++) {
-            // for (j = 0; t[i].includes(':'); j++) {
-                var a = t[i].split(':');
-                 if (a.length == 3) s[i] = (+a[0]) * 60000 + (+a[1]) * 1000 + (+a[2]); 
-                else s[i] = (+a[0]) * 1000 + (+a[1]);
-                // t[i] = t[i].replace(':', '');
-            // }
+            var a = t[i].split(':');
+            if (a.length == 3) s[i] = (+a[0]) * 60000 + (+a[1]) * 1000 + (+a[2]); 
+            else s[i] = (+a[0]) * 1000 + (+a[1]);
         }
         var sum = s.reduce(function(a, b) { return a + b; });
         var avg = sum / s.length;
         id('stats').innerHTML = "<tr><td>" + timer.format(Array.min(s)) + "</td><td>" + timer.format(Math.round(avg))  + "</td><td>" + timer.format(Array.max(s)) + "</td></tr>";
     } else id('stats').innerHTML = "";
 }
+if (get("timesVisible") == undefined) set('timesVisible', true);
+var timesVisible = (get("timesVisible") == 'true');
+function collapseTimes() {
+    set('timesVisible', timesVisible?false:true);
+    timesVisible = (get("timesVisible") == 'true');
+    id('times').style.display = timesVisible ? 'block':'none';
+    id('timesCollapse').innerHTML = timesVisible ? 'Hide times':'Show times';
+}
+function updateCollapse() {
+    id('times').style.display = timesVisible ? 'block':'none';
+    id('timesCollapse').innerHTML = timesVisible ? 'Hide times':'Show times';
+}
+updateCollapse();
 refreshStats();
 window.addEventListener("orientationchange", orientation);
 window.addEventListener("resize", orientation);
