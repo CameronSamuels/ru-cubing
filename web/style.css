@@ -33,15 +33,17 @@ table, #timesCollapse {
 	height: 0px;
 	margin: 5px auto;
 }
-/*#timesCollapse {
-	display: inline-block;
-	border-top-left-radius: 15px;
-	border-bottom-right-radius: 15px;
-	padding: 2px;
-	font-size: 30px;
-	color: #000;
-	background: #fff;
-}*/
+select {
+	outline: none;
+	border: 1px #fff solid;
+	padding: 2.5px;
+	width: 50%;
+	max-width: 320px;
+	color: #fff;
+	background: #000;
+	margin: 4px;
+	font-size: 20px;
+}
 td {
 	border-left: 10px rgba(0,0,0,0) solid;
 	border-right: 14px rgba(0,0,0,0) solid

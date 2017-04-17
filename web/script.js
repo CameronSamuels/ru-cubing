@@ -4,10 +4,13 @@ function set(item, value) { localStorage[item] = value }
 Array.min = function(array){ return Math.min.apply( Math, array )};
 Array.max = function(array){ return Math.max.apply( Math, array )};
 var timer = { time:0, run:'false', base:0 }, table = {}, cpr = Math.floor(window.innerWidth/100) - 1;
-set('cells', get("cells") || 0);
+set('cube', get("cube") || "3x3");
+set('3x3Cells', get("3x3Cells") || 0);
+set('2x2Cells', get("2x2Cells") || 0);
 if (navigator.userAgent.match(/iPhone|iPad|iPod/i) || navigator.userAgent.match(/Android/i)) cpr = Math.min(Math.floor(screen.width/100), 12);
 if (!cpr || cpr <= 0) cpr = 1;
-set('times', get("times") || '');
+set('3x3Times', get("3x3Times") || '');
+set('2x2Times', get("2x2Times") || '');
 timer.toggle = function() {
     if (timer.run == 'false') {
         if (id('timer').style.color == "rgb(127, 255, 0)") {
@@ -27,14 +30,14 @@ timer.toggle = function() {
         id('timer').style.color = '#FFF';
         id('scramble').innerHTML = generateScramble();
         try {
-            var row = Math.floor(get("cells")/cpr);
-            var cell = get("cells")%cpr;
+            var row = Math.floor(get(get("cube") + "Cells")/cpr);
+            var cell = get(get("cube") + "Cells")%cpr;
             if (cell === 0) table["row" + row] = id('times').insertRow(-1);
             table["row" + row]["cell" + cell] = table["row" + row].insertCell(-1);
-            set('times', get("times") + timer.format(timer.time) + '|');
+            set(get("cube") + 'Times', get(get("cube") + "Times") + timer.format(timer.time) + '|');
             table["row" + row]["cell" + cell].innerHTML = timer.format(timer.time);
-            set('cells', parseFloat(get("cells")) + 1);
-            var t = get("times").split('|'); t.pop();
+            set(get("cube") + 'Cells', parseFloat(get(get("cube") + "Cells")) + 1);
+            var t = get(get("cube") + "Times").split('|'); t.pop();
             for (i = 0; i < t.length; i++) {
                 for (j = 0; t[i].includes(':'); j++) {
                     t[i] = t[i].replace(':', '');
@@ -42,8 +45,8 @@ timer.toggle = function() {
             }
         } catch (ex) {
             try {
-                var t = get("times").split('|'); t.pop();
-                set('cells', t.length);
+                var t = get(get("cube") + "Times").split('|'); t.pop();
+                set(get(get("cube") + 'Cells'), t.length);
             } catch (ex) {}
         }
         if (timer.time == Array.min(t)) {
@@ -179,18 +182,18 @@ document.body.ontouchstart = function(e){
 };
 id('times').onclick = function (ev) {
     if (timer.run == 'false') {
-        set('times', get("times").replace(ev.target.innerHTML + '|', ''));
-        id('times').innerHTML = '';
-        set('cells', parseFloat(get("cells")) - 1);
+        set(get("cube") + 'Times', get(get("cube") + "Times").replace(ev.target.innerHTML + '|', ''));
+        set(get("cube") + 'Cells', parseFloat(get(get("cube") + "Cells")) - 1);
         updateTimes();
         refreshStats();
     }
 };
 document.body.oncontextmenu = function(e) { e.preventDefault(); }
 function updateTimes() {
+    id('times').innerHTML = "";
     try {
-        if (get("times").includes('|')) {
-            var times = get("times").split('|');
+        if (get(get("cube") + "Times").includes('|')) {
+            var times = get(get("cube") + "Times").split('|');
             if (times.length > 0) {
                 for (i = 0; i < times.length; i++) {
                     if (times[i] != '') {
@@ -212,8 +215,8 @@ function updateTimes() {
         }
     } catch (ex) {
             try {
-                var t = get("times").split('|'); t.pop();
-                set('cells', t.length);
+                var t = get(get("cube") + "Times").split('|'); t.pop();
+                set(get("cube") + 'Cells', t.length);
             } catch (ex) {}
         }
 }
@@ -221,13 +224,12 @@ function orientation() {
     cpr = Math.floor(window.innerWidth/100) - 1;
     if (navigator.userAgent.match(/iPhone|iPad|iPod/i) || navigator.userAgent.match(/Android/i)) cpr = Math.min(Math.floor(screen.width/100), 12);
     if (!cpr || cpr <= 0) cpr = 1;
-    id('times').innerHTML = "";
     updateTimes();
 }
 updateTimes();
 id('scramble').innerHTML = generateScramble();
 function refreshStats() {
-    var t = get("times").split('|'); t.pop();
+    var t = get(get("cube") + "Times").split('|'); t.pop();
     if (t.length > 0) {
         var s = [];
         for (i = 0; i < t.length; i++) {
@@ -252,6 +254,12 @@ function updateCollapse() {
     id('times').style.display = timesVisible ? 'block':'none';
     id('timesCollapse').innerHTML = timesVisible ? 'Hide times':'Show times';
 }
+function updateCube() {
+    set('cube', id('cube').value);
+    updateTimes();
+    refreshStats();
+}
+id('cube').value = get("cube");
 updateCollapse();
 refreshStats();
 window.addEventListener("orientationchange", orientation);
