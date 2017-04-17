@@ -7,10 +7,11 @@ var timer = { time:0, run:'false', base:0 }, table = {}, cpr = Math.floor(window
 set('cube', get("cube") || "3x3");
 set('3x3Cells', get("3x3Cells") || 0);
 set('2x2Cells', get("2x2Cells") || 0);
+set('PyraminxCells', get("PyraminxCells") || 0);
 if (navigator.userAgent.match(/iPhone|iPad|iPod/i) || navigator.userAgent.match(/Android/i)) cpr = Math.min(Math.floor(screen.width/100), 12);
 if (!cpr || cpr <= 0) cpr = 1;
 set('3x3Times', get("3x3Times") || '');
-set('2x2Times', get("2x2Times") || '');
+set('PyraminxTimes', get("PyraminxTimes") || '');
 timer.toggle = function() {
     if (timer.run == 'false') {
         if (id('timer').style.color == "rgb(127, 255, 0)") {
@@ -90,6 +91,10 @@ function generateNotation() {
             n = ["U", "D", "F", "B", "L", "R"],
             a = ["i", "i", "i", "2", "2", "", "", "", "", "", "", ""];
             break;
+        case "Pyraminx":
+            n = ["U", "B", "L", "R"],
+            a = ["i", "i", "", "", ""];
+            break;
         default:
             n = ["U", "D", "F", "B", "L", "R"],
             a = ["i", "i", "i", "2", "2", "", "", "", "", "", "", ""];
@@ -97,9 +102,9 @@ function generateNotation() {
     return n[Math.floor(n.length * Math.random())] + a[Math.floor(a.length * Math.random())]
 }
 var scrambleLengths = {}, a, n;
-scrambleLengths['3x3'] = 25, scrambleLengths['2x2'] = 9;
+scrambleLengths['3x3'] = 25, scrambleLengths['2x2'] = 9, scrambleLengths['Pyraminx'] = Math.round(Math.max(Math.random()*12,8));
 function generateScramble() {
-    scramble = '', notation = "U", notation2 = '';
+    scramble = '', notation = "U", notation2 = '', scrambleLengths['Pyraminx'] = Math.round(Math.max(Math.random()*12,8));
     for (i = 0; i < scrambleLengths[get("cube")]; i++) {
         notation2 = notation;
         notation = generateNotation();
