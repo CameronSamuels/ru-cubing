@@ -119,6 +119,7 @@ document.body.onkeyup = function (e) {
 document.body.onkeydown = function (e) {
     if (keyDown == 'false') {
         if (timer.run == 'false') {
+            document.body.style.background = '#000';
             id('timer').style.color = "#F00";
             clearTimeout(timeout);
             timeout = setTimeout(function(){if (keyDown == 'true'){id('timer').style.color = "#7FFF00";}}, 500);
@@ -138,6 +139,7 @@ if (!navigator.userAgent.match(/iPhone|iPad|iPod/i) && !navigator.userAgent.matc
     id('timer').onmousedown = function (e) {
         if (keyDown == 'false') {
             if (timer.run == 'false') {
+                document.body.style.background = '#000';
                 id('timer').style.color = "#F00";
                 clearTimeout(timeout);
                 timeout = setTimeout(function(){if (keyDown == 'true'){id('timer').style.color = "#7FFF00";}}, 500);
@@ -167,6 +169,7 @@ document.body.ontouchend = function(e){
 document.body.ontouchstart = function(e){
     if (keyDown == 'false') {
         if (timer.run == 'false' && e.target.id == "timer") {
+            document.body.style.background = '#000';
             id('timer').style.color = "#F00";
             clearTimeout(timeout);
             timeout = setTimeout(function(){if (keyDown == 'true'){id('timer').style.color = "#7FFF00";window.navigator.vibrate(50)}}, 500);
