@@ -85,25 +85,22 @@ timer.format = function(time) {
 	return time;
 };
 function generateNotation() {
-	var notation = Math.floor(Math.random() * 6);
-    switch (notation) {
-        case 0: notation = "U"; break;
-        case 1: notation = "D"; break;
-        case 2: notation = "F"; break;
-        case 3: notation = "B"; break;
-        case 4: notation = "L"; break;
-        case 5: notation = "R"; break;
-        default: notation = "U";
+    switch (get("cube")) {
+        case "3x3" || "2x2":
+            n = ["U", "D", "F", "B", "L", "R"],
+            a = ["i", "i", "i", "2", "2", "", "", "", "", "", "", ""];
+            break;
+        default:
+            n = ["U", "D", "F", "B", "L", "R"],
+            a = ["i", "i", "i", "2", "2", "", "", "", "", "", "", ""];
     }
-    var addOn = Math.floor(Math.random() * 6);
-    if (addOn == 3 || addOn == 4) notation += "i";
-    else if (addOn == 5) notation += "2";
-    return notation;
+    return n[Math.floor(n.length * Math.random())] + a[Math.floor(a.length * Math.random())]
 }
+var scrambleLengths = {};
+scrambleLengths['3x3'] = 25, scrambleLengths['2x2'] = 8;
 function generateScramble() {
-	var scramble = '';
-    var notation = "U", notation2;
-    for (i = 0; i < 25; i++) {
+    var scramble = '', notation = "U", notation2;
+    for (i = 0; i < scrambleLengths[get("cube")]; i++) {
         notation2 = notation;
         notation = generateNotation();
         while (notation.charAt(0) == notation2.charAt(0) || notation2.charAt(0) == notation.charAt(0)) {
@@ -258,6 +255,7 @@ function updateCube() {
     set('cube', id('cube').value);
     updateTimes();
     refreshStats();
+    id('scramble').innerHTML = generateScramble();
 }
 id('cube').value = get("cube");
 updateCollapse();
