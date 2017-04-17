@@ -11,6 +11,7 @@ set('PyraminxCells', get("PyraminxCells") || 0);
 if (navigator.userAgent.match(/iPhone|iPad|iPod/i) || navigator.userAgent.match(/Android/i)) cpr = Math.min(Math.floor(screen.width/100), 12);
 if (!cpr || cpr <= 0) cpr = 1;
 set('3x3Times', get("3x3Times") || '');
+set('2x2Times', get("2x2Times") || '');
 set('PyraminxTimes', get("PyraminxTimes") || '');
 timer.toggle = function() {
     if (timer.run == 'false') {
