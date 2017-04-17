@@ -96,14 +96,14 @@ function generateNotation() {
     }
     return n[Math.floor(n.length * Math.random())] + a[Math.floor(a.length * Math.random())]
 }
-var scrambleLengths = {};
+var scrambleLengths = {}, a, n;
 scrambleLengths['3x3'] = 25, scrambleLengths['2x2'] = 8;
 function generateScramble() {
-    var scramble = '', notation = "U", notation2;
+    scramble = '', notation = "U", notation2 = '';
     for (i = 0; i < scrambleLengths[get("cube")]; i++) {
         notation2 = notation;
         notation = generateNotation();
-        while (notation.charAt(0) == notation2.charAt(0) || notation2.charAt(0) == notation.charAt(0)) {
+        while (notation.charAt(0) == notation2.charAt(0) || Math.floor(n.indexOf(notation.charAt(0)) / 2) == Math.floor(n.indexOf(notation2.charAt(0)) / 2) || notation2.charAt(0) == notation.charAt(0)) {
             notation = generateNotation();
         }
         scramble += notation + " ";
