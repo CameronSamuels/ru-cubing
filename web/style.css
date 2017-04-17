@@ -43,11 +43,12 @@ select {
 	max-width: 320px;
 	color: #fff;
 	background: #000;
-	margin: 4px;
+	margin: 4px auto;
+	margin-right: 3px;
 	font-size: 20px;
 }
 select + div {
-  margin-left: -35px;
+  margin-left: -20px;
   display: inline-block;
   pointer-events: none;
 }
@@ -61,8 +62,8 @@ select + div b {
 	margin-bottom: 3px;
 }
 select + div i {
-	width: 0; 
-	height: 0; 
+	width: 0;
+	height: 0;
 	border-left: 5px solid transparent;
 	border-right: 5px solid transparent;
 	border-top: 5px solid #fff;
