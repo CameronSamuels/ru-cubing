@@ -34,6 +34,8 @@ table, #timesCollapse {
 	margin: 5px auto;
 }
 select {
+	-webkit-appearance: none;
+	-moz-appearance: none;
 	outline: none;
 	border: 1px #fff solid;
 	padding: 2.5px;
@@ -43,6 +45,28 @@ select {
 	background: #000;
 	margin: 4px;
 	font-size: 20px;
+}
+select + div {
+  margin-left: -35px;
+  display: inline-block;
+  pointer-events: none;
+}
+select + div b {
+	width: 0; 
+	height: 0; 
+	border-left: 5px solid transparent;
+	border-right: 5px solid transparent;
+	border-bottom: 5px solid #fff;
+	display: block;
+	margin-bottom: 3px;
+}
+select + div i {
+	width: 0; 
+	height: 0; 
+	border-left: 5px solid transparent;
+	border-right: 5px solid transparent;
+	border-top: 5px solid #fff;
+	display: block;
 }
 td {
 	border-left: 10px rgba(0,0,0,0) solid;
