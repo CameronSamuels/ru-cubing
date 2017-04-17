@@ -97,7 +97,7 @@ function generateNotation() {
     return n[Math.floor(n.length * Math.random())] + a[Math.floor(a.length * Math.random())]
 }
 var scrambleLengths = {}, a, n;
-scrambleLengths['3x3'] = 25, scrambleLengths['2x2'] = 8;
+scrambleLengths['3x3'] = 25, scrambleLengths['2x2'] = 9;
 function generateScramble() {
     scramble = '', notation = "U", notation2 = '';
     for (i = 0; i < scrambleLengths[get("cube")]; i++) {
