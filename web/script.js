@@ -8,6 +8,7 @@ set('cube', get("cube") || "3x3");
 set('3x3Cells', get("3x3Cells") || 0);
 set('2x2Cells', get("2x2Cells") || 0);
 set('4x4Cells', get("4x4Cells") || 0);
+set('5x5Cells', get("5x5Cells") || 0);
 set('SkewbCells', get("SkewbCells") || 0);
 set('PyraminxCells', get("PyraminxCells") || 0);
 if (navigator.userAgent.match(/iPhone|iPad|iPod/i) || navigator.userAgent.match(/Android/i)) cpr = Math.min(Math.floor(screen.width/100), 12);
@@ -15,6 +16,7 @@ if (!cpr || cpr <= 0) cpr = 1;
 set('3x3Times', get("3x3Times") || '');
 set('2x2Times', get("2x2Times") || '');
 set('4x4Times', get("4x4Times") || '');
+set('5x5Times', get("5x5Times") || '');
 set('SkewbTimes', get("SkewbTimes") || '');
 set('PyraminxTimes', get("PyraminxTimes") || '');
 timer.toggle = function() {
@@ -104,6 +106,10 @@ function generateNotation() {
             n = ["U", "D", "F", "B", "L", "R", "Fw", "Bw", "Rw", "Lw", "Uw", "Bw"],
             a = ["'", "'", "'", "2", "2", "", "", "", "", "", "", ""];
             break;
+        case "5x5":
+            n = ["U", "D", "F", "B", "L", "R", "Fw", "Bw", "Rw", "Lw", "Uw", "Bw"],
+            a = ["'", "'", "'", "2", "2", "", "", "", "", "", "", ""];
+            break;
         case "Skewb":
             n = ["U", "B", "L", "R"],
             a = ["i", "i", "", "", ""];
@@ -115,7 +121,7 @@ function generateNotation() {
     return n[Math.floor(n.length * Math.random())] + a[Math.floor(a.length * Math.random())]
 }
 var scrambleLengths = {}, a, n;
-scrambleLengths['3x3'] = 25, scrambleLengths['2x2'] = 9, scrambleLengths['4x4'] = 40, scrambleLengths['Skewb'] = Math.round(Math.max(Math.random()*9,6)), scrambleLengths['Pyraminx'] = Math.round(Math.max(Math.random()*12,8));
+scrambleLengths['3x3'] = 25, scrambleLengths['2x2'] = 9, scrambleLengths['4x4'] = 40, scrambleLengths['5x5'] = 60, scrambleLengths['Skewb'] = Math.round(Math.max(Math.random()*9,6)), scrambleLengths['Pyraminx'] = Math.round(Math.max(Math.random()*12,8));
 function generateScramble() {
     scramble = '', notation = "U", notation2 = '', scrambleLengths['Pyraminx'] = Math.round(Math.max(Math.random()*12,8)), scrambleLengths['Skewb'] = Math.round(Math.max(Math.random()*9,6));
     for (i = 0; i < scrambleLengths[get("cube")]; i++) {
