@@ -42,11 +42,12 @@ select {
 	width: 50%;
 	max-width: 320px;
 	color: #fff;
-	background: #000;
+	background: transparent;
 	margin: 4px auto;
 	margin-right: 3px;
 	font-size: 20px;
 }
+option { color: #000 }
 select + div {
   margin-left: -20px;
   display: inline-block;
