@@ -29,7 +29,7 @@ timer.toggle = function() {
             document.body.style.background = '#000';
             var eles = document.querySelectorAll('body *:not(#timer):not(main):not(strong)');
             for (i = 0; i < eles.length; i++) {
-                eles[i].style.display = "none";
+                eles[i].style.visibility= "hidden";
             }
         }
     }
@@ -64,7 +64,7 @@ timer.toggle = function() {
         refreshStats();
         var eles = document.querySelectorAll('body *:not(#timer):not(#times)');
         for (i = 0; i < eles.length; i++) {
-            eles[i].style.display = "";
+            eles[i].style.visibility= "";
         }
         updateCollapse();
     }
@@ -229,13 +229,13 @@ function updateTimes() {
                     }
                 }
             }
-            id('timesCollapse').style.display = "";
-            id('timesCollapse').previousElementSibling.style.display = "";
-            id('timesCollapse').nextElementSibling.style.display = "";
+            id('timesCollapse').style.visibility = "";
+            id('timesCollapse').previousElementSibling.style.visibility = "";
+            id('timesCollapse').nextElementSibling.style.visibility = "";
         } else {
-            id('timesCollapse').style.display = "none";
-            id('timesCollapse').previousElementSibling.style.display = "none";
-            id('timesCollapse').nextElementSibling.style.display = "none";
+            id('timesCollapse').style.visibility = "hidden";
+            id('timesCollapse').previousElementSibling.style.visibility = "hidden";
+            id('timesCollapse').nextElementSibling.style.visibility = "hidden";
         }
     } catch (ex) {
             try {
@@ -271,11 +271,11 @@ var timesVisible = (get("timesVisible") == 'true');
 function collapseTimes() {
     set('timesVisible', timesVisible?false:true);
     timesVisible = (get("timesVisible") == 'true');
-    id('times').style.display = timesVisible ? 'block':'none';
+    id('times').style.visibility = timesVisible ? 'visible':'hidden';
     id('timesCollapse').innerHTML = timesVisible ? 'Hide times':'Show times';
 }
 function updateCollapse() {
-    id('times').style.display = timesVisible ? 'block':'none';
+    id('times').style.visibility = timesVisible ? 'visible':'hidden';
     id('timesCollapse').innerHTML = timesVisible ? 'Hide times':'Show times';
 }
 function updateCube() {
