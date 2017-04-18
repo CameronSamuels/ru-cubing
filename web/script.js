@@ -102,7 +102,7 @@ function generateNotation() {
             break;
         case "4x4":
             n = ["U", "D", "F", "B", "L", "R", "Fw", "Bw", "Rw", "Lw", "Uw", "Bw"],
-            a = ["i", "i", "i", "2", "2", "", "", "", "", "", "", ""];
+            a = ["'", "'", "'", "2", "2", "", "", "", "", "", "", ""];
             break;
         case "Skewb":
             n = ["U", "B", "L", "R"],
