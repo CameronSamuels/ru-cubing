@@ -155,7 +155,7 @@ document.body.onkeydown = function (e) {
     }
 };
 if (!navigator.userAgent.match(/iPhone|iPad|iPod/i) && !navigator.userAgent.match(/Android/i)) {
-    id('timer').onmouseup = function (e) {     
+    document.body.onmouseup = function (e) {     
         timer.toggle();
         id('timer').style.color = "#FFF";
         keyDown = 'false';
@@ -254,7 +254,7 @@ updateTimes();
 id('scramble').innerHTML = generateScramble();
 function refreshStats() {
     var t = get(get("cube") + "Times").split('|'); t.pop();
-    if (t.length > 0) {
+    if (t.length > 1) {
         var s = [];
         for (i = 0; i < t.length; i++) {
             var a = t[i].split(':');
