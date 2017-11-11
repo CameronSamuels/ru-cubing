@@ -4,6 +4,7 @@ A cross-platform Rubik’s cube timer app.
 ## Links
 [Web](https://xel.company/rucubing) - For any platform
 <br>[App Store](https://goo.gl/ezXuJG) - For iPhone and iPad
+<br>[Chrome Web Store](https://goo.gl/4UXfwC) - For Chrome
 
 ## Features
 - Times to the 3rd millisecond
