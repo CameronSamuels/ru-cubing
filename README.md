@@ -6,7 +6,7 @@ Quickly delete any unnecessary times.
 The app is free and has no ads.
 
 ## Links
-[Web](https://xel.company/rucubing) - For any platform
+[Web](https://git.io/vpC2l) - For any platform
 <br>[App Store](https://goo.gl/ezXuJG) - For iPhone and iPad
 <br>[Chrome Web Store](https://goo.gl/4UXfwC) - For Chrome
 
