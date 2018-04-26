@@ -16,7 +16,7 @@ You may also [open an issue](https://git.io/vFWV3) for a bug report or idea.
 
 ## Team
 **Cameron Samuels** - Developer
-**Jacob Gelder** - Collaborator
+<br>**Jacob Gelder** - Collaborator
 
 ## License
 RU Cubing is distributed under the [Cameron Samuels License](LICENSE).
